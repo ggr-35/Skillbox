@@ -1,3 +1,0 @@
-C:/Users/Герман Гольников/CLionProjects/11.3/cmake-build-debug/CMakeFiles/11_3.dir
-C:/Users/Герман Гольников/CLionProjects/11.3/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Герман Гольников/CLionProjects/11.3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
