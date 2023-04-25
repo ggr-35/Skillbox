@@ -12,8 +12,7 @@ char get_item(std::string str_0, std::string str_1, std::string str_2, int x,
         return 0;
 }
 
-std::string get_column(std::string str_0, std::string str_1, std::string str_2,
-                       int i_col) {
+std::string get_column(const std::string& str_0, const std::string& str_1, const std::string& str_2, int i_col) {
     std::string column_str;
     for (int i = 0; i < 3; ++i) {
         for (int j = i_col; j < i_col + 1; ++j) {
