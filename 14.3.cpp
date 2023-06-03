@@ -54,4 +54,5 @@ int main() {
     conversion_to_diagonal(a);
     print_matrix(a);
   }
+
 }
