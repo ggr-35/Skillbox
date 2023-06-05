@@ -19,8 +19,21 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/german/Desktop/Skillbox",
-      "program": "/Users/german/Desktop/Skillbox/build/Debug/outDebug"
+      "cwd": "/Users/german/Desktop/Skillbox/15",
+      "program": "/Users/german/Desktop/Skillbox/15/build/Debug/outDebug"
+    },
+    {
+      "name": "C/C++: g++ сборка и отладка активного файла",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "C/C++: g++ сборка активного файла"
     }
   ]
 }
