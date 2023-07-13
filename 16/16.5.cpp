@@ -13,11 +13,11 @@ enum switches
 int main() {
 
 int switches_state = 0;
-
+    
     for (int days = 1; days <= 2; ++days)
     {
-        int l_t_currently = 5000, l_t_finish = 2700, start_light_temp = 16, end_light_temp = 20;
- 
+        int l_t_currently = 5000, l_t_start = 5000, l_t_finish = 2700, start_light_temp = 16, end_light_temp = 20;
+
         for (int hours = 0; hours < 24; ++hours)
         {
             std::string buffer, movement, light_in;
@@ -68,17 +68,19 @@ int switches_state = 0;
             if ((light_in == "on") && !(switches_state & LIGHTS_INSIDE))
             {
                 switches_state |= LIGHTS_INSIDE;
-                std::cout << " LIGHTS_INSIDE / on" << "Light_temp: " << l_t_currently << "K" <<std::endl;
-
-                if ((hours >= start_light_temp && hours <= end_light_temp))
-                    l_t_currently-= (l_t_currently - l_t_finish) / (end_light_temp - start_light_temp);
+                std::cout << "LIGHTS_INSIDE / on " <<std::endl;
 
             }else if ((light_in == "off") && (switches_state & LIGHTS_INSIDE))
             {
                 switches_state &= ~LIGHTS_INSIDE;
                 std::cout << "LIGHTS_INSIDE / off" << std::endl;
             }
-            
+            if ((switches_state & LIGHTS_INSIDE) && (hours >= start_light_temp && hours <= end_light_temp))      
+            {
+               std::cout << "Light_temp: " << l_t_currently << "K" << std::endl;
+               l_t_currently -= (l_t_start - l_t_finish) / (end_light_temp - start_light_temp);
+               
+            }
        }   
     }
 }
