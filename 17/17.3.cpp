@@ -32,8 +32,8 @@ bool substr(char* px,char* py){
 int main() {
 
     
-    char* a = "gewewraello graword!";
-    char* b = "gera";
+    char* a = "Hello world";
+    char* b = "wor";
     char* c = "banana";
 
     std::cout << substr(a,b) << " " << substr(a,c) << std::endl;
