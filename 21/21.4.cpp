@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
 #include <vector>
-#include <unistd.h>
 
 using std::cin, std::cout, std::vector, std::endl, std::string; 
+
+
 
 enum character_type
 {
@@ -70,10 +70,52 @@ void draw_map(char map[][20], bool pos[][20], vector<character>& characters)
     print_map(map);
 }
 
-bool damage(vector<character>& characters, bool pos[][20], int j, int operation)
+void end_of_game(vector<character>& characters)
 {   
-    return false;
-   
+    if(characters.size() == 1 && characters[0].Life > 0)
+    {
+        cout << "You won !";           
+        exit(EXIT_SUCCESS);
+    }
+    else if (characters[0].Life <= 0)
+    {
+        cout << "You lose !";
+        exit(EXIT_SUCCESS);
+    }
+}
+
+bool damage(vector<character>& characters, bool pos[][20], int x , int y, int j)
+{   
+   for (int i = 0; i < characters.size(); i++)
+   {
+        if(characters[i].pos.x == x && characters[i].pos.y == y 
+        && characters[i].type != characters[j].type)
+        {
+            if((characters[i].Life - characters[j].Damage) > 0)
+            {   
+                characters[i].Life-= characters[j].Damage;
+                cout << characters[i].Name << " Damage: " << characters[j].Damage << " Life: " << characters[i].Life << endl;
+                end_of_game(characters);
+                return true;
+            }
+            else
+            {
+                cout << characters[i].Name << " dead! " << endl;
+                if(characters[i].type == enemy)
+                {
+                     characters.erase(characters.begin() + i);
+                     end_of_game(characters);
+                     return false;
+                }
+                else
+                {
+                    cout << "You lose !";
+                    exit(EXIT_SUCCESS);
+                }
+            }
+        }
+   }
+   return false;
 }
 
 void move(char map[][20], bool pos[][20], vector<character>& characters)
@@ -94,58 +136,36 @@ void move(char map[][20], bool pos[][20], vector<character>& characters)
             command = comm_list[rand() % 4];
         }
 
-            if(command == "w" && characters[i].pos.x > 0 && !damage(characters, pos, i, -1) && !pos[characters[i].pos.x - 1][characters[i].pos.y])
+            if(command == "w" && characters[i].pos.x > 0 && !damage(characters, pos, characters[i].pos.x - 1, characters[i].pos.y, i))
             {
                 pos[characters[i].pos.x][characters[i].pos.y] = false;
                 --characters[i].pos.x;
                 pos[characters[i].pos.x][characters[i].pos.y] = true;
             }
-            else if(command == "s" && characters[i].pos.x < 19 && !damage(characters, pos, i, 1) && !pos[characters[i].pos.x + 1][characters[i].pos.y])
+            else if(command == "s" && characters[i].pos.x < 19 && !damage(characters, pos, characters[i].pos.x + 1, characters[i].pos.y, i))
             {
                 pos[characters[i].pos.x][characters[i].pos.y] = false;
                 ++characters[i].pos.x;
                 pos[characters[i].pos.x][characters[i].pos.y] = true;
             }
-            else if(command == "a" && characters[i].pos.y > 0 && !damage(characters, pos, i, -1) && !pos[characters[i].pos.x][characters[i].pos.y - 1])
+            else if(command == "a" && characters[i].pos.y > 0 && !damage(characters, pos, characters[i].pos.x, characters[i].pos.y - 1, i))
             {
                 pos[characters[i].pos.x][characters[i].pos.y] = false;
                 --characters[i].pos.y;
                 pos[characters[i].pos.x][characters[i].pos.y] = true;
             }
-            else if(command == "d" && characters[i].pos.y < 19 && !damage(characters, pos, i, -1) && !pos[characters[i].pos.x][characters[i].pos.y + 1])
+            else if(command == "d" && characters[i].pos.y < 19 && !damage(characters, pos, characters[i].pos.x, characters[i].pos.y + 1, i))
             {
                 pos[characters[i].pos.x][characters[i].pos.y] = false;
                 ++characters[i].pos.y;
                 pos[characters[i].pos.x][characters[i].pos.y] = true;
             }
-            else if(characters[i].type == player
-            && (characters[i].pos.x == 0 || characters[i].pos.x == 19 
-            || characters[i].pos.y == 0 || characters[i].pos.y == 19))
-            {
-                cout << "Comand error!" << endl;
-                return;
-            }
     }
-}
-
-bool end_of_game(vector<character>& characters)
-{
-    int alive = 0;
-
-    for (int i = 0; i < characters.size(); i++)
-    {
-        if(characters[i].Life > 0)
-            ++alive;
-    }
-
-    if(alive == 1)
-        return true;
-    else
-        return false; 
 }
 
 int main()
-{   
+{  
+
     std::srand(std::time(nullptr));
     vector<character> characters;
     char map[20][20];
@@ -153,14 +173,16 @@ int main()
     bool pos[20][20] = {false};
 
     new_ch.type = player;
-    new_ch.Name = "Gera";
-    new_ch.Life = 100;
-    new_ch.Armor = 30;
-    new_ch.Damage = 100;
+    cout << "Enter the name: "; cin >> new_ch.Name;
+    cout << "Enter the life's: "; cin >> new_ch.Life;
+    cout << "Enter the armor: "; cin >> new_ch.Armor;
+    cout << "Enter the damage: "; cin >> new_ch.Damage;
     new_ch.pos.x = rand() % 19;
     new_ch.pos.y = rand() % 19;
     pos[new_ch.pos.x][new_ch.pos.y] = true;
     characters.push_back(new_ch);
+
+    
 
     for (int i = 0; i < 5; i++)
     {   
@@ -181,11 +203,9 @@ int main()
         characters.push_back(new_ch);
     }
 
-    while (!end_of_game(characters))
+    while (true)
     {
         draw_map(map, pos, characters);
         move(map, pos, characters);
     }
-
-    (characters[0].Life > 0) ? (cout << "You won !") : (cout << "You lose !");
 }
