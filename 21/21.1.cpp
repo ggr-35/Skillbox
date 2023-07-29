@@ -13,7 +13,7 @@ struct person
 
 void file_list()
 {
-    std::ifstream file_list("/Users/german/Downloads/test.txt");
+    std::ifstream file_list("/Users/german/Downloads/game.txt", std::ios::binary);
 
     if(!file_list.is_open())
     {
@@ -46,7 +46,7 @@ void file_list()
 
 void file_add()
 {
-    std::ofstream file_save("/Users/german/Downloads/test.txt", std::ios::app);
+    std::ofstream file_save("/Users/german/Downloads/game.txt", std::ios::binary);
     if(!file_save.is_open())
     {
         std::cerr << "File erro !" << std::endl;

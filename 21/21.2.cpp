@@ -4,19 +4,6 @@
 
 using std::cin, std::cout, std::endl;
 
-
-
-/*
-    
-     plots(number)
-        buildings(tipe,s)
-            house (s, floors, rooms, tipe of room, pipe)
-            garage (s)
-            shed (s)
-            sauna (s, pipe)
-    */
-
-
 enum room_tipes
 {
     bedroom,
@@ -125,7 +112,6 @@ void output_house()
 
 int main()
 {   
-   
     cout << "How many plots in your township ? ";
     cin >> new_town.plot_count;
     new_town.plot.resize(new_town.plot_count);
