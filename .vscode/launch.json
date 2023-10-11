@@ -19,8 +19,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/german/Desktop/Skillbox/21",
-      "program": "/Users/german/Desktop/Skillbox/21/build/Debug/outDebug"
+      "cwd": "/Users/german/Desktop/Skillbox/24",
+      "program": "/Users/german/Desktop/Skillbox/24/build/Debug/outDebug"
     },
     {
       "name": "C/C++: g++ сборка и отладка активного файла",
