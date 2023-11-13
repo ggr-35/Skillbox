@@ -26,24 +26,83 @@
 #include <iomanip>
 #include <vector>
  
-
 struct birthdays
 {
    std::string name;
    std::tm data;
-};
+}new_birthday;
 
+std::vector<birthdays> vec;
+std::time_t t_now = std::time(nullptr);
+std::tm now = *std::localtime(&t_now);
+
+void vec_print()
+{
+   if(vec[0].data.tm_mon == now.tm_mon && vec[0].data.tm_mday == now.tm_mday)
+      std::cout << "Today the birthday is celebrated : " << std::endl;
+         
+   for (int i = 0; i < vec.size(); i++)
+      if(vec[i].data.tm_mon == vec[0].data.tm_mon 
+         && vec[i].data.tm_mday == vec[0].data.tm_mday)
+         std::cout << vec[i].name << " " << std::put_time(&vec[i].data,"%y/%m/%d") << std::endl;
+}
+   
+void input()
+{
+   while (true)
+   {
+      std::cout << "Enter the name: ";
+      std::cin >> new_birthday.name;
+      if(new_birthday.name != "end")
+      {
+         std::cout << "Enter the year: ";
+         std::cin >> new_birthday.data.tm_year;
+         new_birthday.data.tm_year -= 1900;
+         std::cout << "Enter the mon: ";
+         std::cin >> new_birthday.data.tm_mon;
+         new_birthday.data.tm_mon -= 1;
+         std::cout << "Enter the day: ";
+         std::cin >> new_birthday.data.tm_mday;
+         vec.push_back(new_birthday);
+      }else
+         break;
+   } 
+}
+
+void del_vec()
+{
+    for (int i = 0; i < vec.size(); i++)
+   {
+      if((vec[i].data.tm_mon < now.tm_mon) || (vec[i].data.tm_mon == now.tm_mon && vec[i].data.tm_mday < now.tm_mday))
+      {
+         vec.erase(vec.begin() + i);
+         --i;
+      }
+   }
+}
+
+void sort()
+{
+   for (int i = 0; i < vec.size() - 1; i++)
+   {
+      for (int j = 1; j < vec.size(); j++)
+      {
+         if(vec[j - 1].data.tm_mon > vec[j].data.tm_mon 
+         || (vec[j - 1].data.tm_mon == vec[j].data.tm_mon && vec[j - 1].data.tm_mday > vec[j].data.tm_mday))
+         {
+            birthdays buff = vec[j];
+            vec[j] = vec[j - 1];
+            vec[j - 1] = buff;
+         }
+      }
+   }
+}
 
 int main()
 {
-   std::time_t t = std::time(nullptr);
-   std::tm local = *std::localtime(&t);
-   std::cin >> std::get_time(&local, "%H:%M");
-   std::cout << std::asctime(&local) << std::endl;
+   input();
+   del_vec();
+   sort();
+   vec_print();
+
 }
-   
-
-  
-
-
-

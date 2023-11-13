@@ -1,8 +1,6 @@
 #include <iostream>
-#include <map>
-#include <vector>
 
-using std::cout, std::cin, std::endl, std::string, std::map, std::vector;
+using std::cout, std::cin, std::endl, std::string;
 
 class TrainCar
 {
@@ -55,12 +53,15 @@ public:
         return count;
     }
 
-    Train(int inCount, int inPassengersMax): count(inCount)
+    // определяем конструктор класса, который автоматически выделяет массив типа - вагон 
+    // в цикле добавляем по каждому указателю обьект "вагон"
+    Train(int inCount, int inPassengersMax): count(inCount) // получем кол людей и макс кол / инициализируем количество 
     {
-        cars = new TrainCar*[inCount]; // Создается динамический массив указателей на вагоны, называемый "cars", длиной inCount.
+        cars = new TrainCar*[inCount]; // TrainCar** Создается динамический массив указателей на вагоны, называемый "cars", длиной inCount.
+
         for (int i = 0; i < count; i++)
         {
-            cars[i] = new TrainCar(inPassengersMax); // создается новый объект TrainCar со значением inPassengersMax, и указатель на этот объект присваивается текущему элементу массива cars.
+            cars[i] = new TrainCar(inPassengersMax); // Внутри цикла создается новый объект TrainCar со значением inPassengersMax, и указатель на этот объект присваивается текущему элементу массива cars.
         }
         
     }
@@ -70,13 +71,13 @@ public:
 
 int main()
 {
-   Train* train = new Train(10, 30);
-
-   for (int i = 0; i < train->getCount(); i++)
+   Train* train = new Train(10, 30); // динамически создаем обьект Train используя конструктор класса
+    
+   for (int i = 0; i < train->getCount(); i++) // инициализируем массив
    {
         int passengers = 0;
         cin >> passengers;
         train->gatCarAt(i)->load(passengers);
    }
-   
+   //TrainCar** cars = new TrainCar*[inCount];
 }

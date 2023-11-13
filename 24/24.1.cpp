@@ -56,7 +56,7 @@ void status()
    {  
       if(tasks[i].t_spent != 0)
       {
-         tasks[i].t_spent -= static_cast<std::time_t>(10800);// <-- костыль ?
+         tasks[i].t_spent -= static_cast<std::time_t>(10800);
          std::tm local = *std::localtime(&tasks[i].t_spent);
          std::cout << tasks[i].name << " - " << std::put_time(&local,"%H:%M:%S") << std::endl;
       }

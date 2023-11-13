@@ -1,0 +1,5 @@
+/Users/german/Desktop/Skillbox/build/CMakeFiles/edit_cache.dir
+/Users/german/Desktop/Skillbox/build/CMakeFiles/rebuild_cache.dir
+/Users/german/Desktop/Skillbox/build/src/CMakeFiles/25.dir
+/Users/german/Desktop/Skillbox/build/src/CMakeFiles/edit_cache.dir
+/Users/german/Desktop/Skillbox/build/src/CMakeFiles/rebuild_cache.dir

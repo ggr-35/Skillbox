@@ -1,38 +1,37 @@
+/*
+Реализуйте работу точного таймера с визуальной отдачей.
+
+В начале программы пользователь вводит количество минут и секунд, которые требуется засечь на таймере, и нажимает «Ввод».
+
+После этого начинается обратный отсчёт времени, о чём незамедлительно и последовательно сообщается пользователю. 
+Формат вывода такой же, как и при вводе интервала: минуты и секунды.
+
+Как только отсчёт на таймере иссяк, программа сообщает об этом с помощью вывода в консоль специального сообщения. 
+Сообщение вместо аудиосигнала может выглядеть так: DING! DING! DING!
+
+Для ввода значения для засекания времени используйте std::get_time, но в качестве формата запросите только минуты и секунды. 
+Целевое время для остановки таймера вычислите сами с помощью манипуляции над текущим std::time. 
+Количество оставшегося времени выводите в цикле и вычислите его самостоятельно с помощью обращения с типом std::time_t как с секундами.
+*/
+
 #include <iostream>
-#include <string>
-#include <curl/curl.h>
+#include <ctime>
+#include <iomanip>
 
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
-    size_t totalSize = size * nmemb;
-    output->append((char*)contents, totalSize);
-    return totalSize;
-}
+int main()
+{
+    std::time_t t = std::time(nullptr);
+    std::tm local = *std::localtime(&t);
+    std::cin >> std::get_time(&local,"%M:%S");
+    t += ((local.tm_min * 60) + local.tm_sec);
 
-int main() {
-    CURL* curl;
-    CURLcode res;
-    std::string webpage;
-
-    curl_global_init(CURL_GLOBAL_ALL);
-    curl = curl_easy_init();
-
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &webpage);
-
-        res = curl_easy_perform(curl);
-        curl_easy_cleanup(curl);
-
-        if (res != CURLE_OK) {
-            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
-            return 1;
-        }
-
-        // Вывод содержимого веб-страницы
-        std::cout << webpage << std::endl;
+    for (size_t i = 0; i < 10; i++)
+    {
+        std::cout << std::difftime(t, std::time(nullptr)); 
     }
-
-    curl_global_cleanup();
-    return 0;
+    
+    while (std::difftime(t, std::time(nullptr)) != 0)
+    {
+       std::cout << std::put_time(&local,"%M:%S");
+    }
 }
